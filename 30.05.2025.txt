@@ -1,0 +1,132 @@
+db.products.find({"spec.ram":{$eq:8}},{name:1,"spec.ram":1});
+{
+  _id: 4,
+  name: 'SmartPad',
+  spec: {
+    ram: 8
+  }
+}
+db.products.find({color:{$eq:"black"}},{name:1,color:1});
+{
+  _id: 1,
+  name: 'xPhone',
+  color: [
+    'white',
+    'black'
+  ]
+}
+db.products.find({releaseDate:{$eq:new ISODate("2020-05-14")}},{name:1,releaseDate:1});
+{
+  _id: 4,
+  name: 'SmartPad',
+  releaseDate: 2020-05-14T00:00:00.000Z
+}
+db.products.find({price:{$lt:500}},{name:1,price:1});
+db.products.find({"spec.screen":{$lt:7}},{name:1});
+{
+  _id: 1,
+  name: 'xPhone'
+}
+db.products.find({storage:{$lt:128}},{name:1});
+{
+  _id: 1,
+  name: 'xPhone'
+}
+db.products.find({price:{$gt:800}},{name:1,price:1});
+{
+  _id: 2,
+  name: 'xTablet',
+  price: 899
+}
+{
+  _id: 3,
+  name: 'SmartTablet',
+  price: 899
+}
+
+db.products.find({"spec.cpu":{$gte:2.66}},{name:1});
+{
+  _id: 1,
+  name: 'xPhone'
+}
+{
+  _id: 2,
+  name: 'xTablet'
+}
+db.products.find({price:{$in:[699,799]}},{name:1,price:1});
+{
+  _id: 1,
+  name: 'xPhone',
+  price: 799
+}
+db.products.find({releaseDate:{$in:[new ISODate("2011-09-01")]}},{name:1,releaseDate:1});
+{
+  _id: 2,
+  name: 'xTablet',
+  releaseDate: 2011-09-01T00:00:00.000Z
+}
+db.products.find({color:{$nin:[/^g+/,/^w+/]}},{name:1,color:1});//does not start with g and w
+{
+  _id: 3,
+  name: 'SmartTablet',
+  color: [
+    'blue'
+  ]
+}
+db.products.find({color:{$in:[/or/]}},{name:1,color:1});//contains or
+{
+  _id: 4,
+  name: 'SmartPad',
+  color: [
+    'white',
+    'orange',
+    'gold',
+    'gray'
+  ]
+}
+{
+  _id: 5,
+  name: 'SmartPhone',
+  color: [
+    'white',
+    'orange',
+    'gold',
+    'gray'
+  ]
+}
+db.products.find({color:{$in:[/e$/]}},{name:1,color:1});//ends with e
+{
+  _id: 1,
+  name: 'xPhone',
+  color: [
+    'white',
+    'black'
+  ]
+}
+{
+  _id: 2,
+  name: 'xTablet',
+  color: [
+    'white',
+    'black',
+    'purple'
+  ]
+}
+{
+  _id: 3,
+  name: 'SmartTablet',
+  color: [
+    'blue'
+  ]
+}
+{
+  _id: 4,
+  name: 'SmartPad',
+  color: [
+    'white',
+    'orange',
+    'gold',
+    'gray'
+  ]
+}
+
