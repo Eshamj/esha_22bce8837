@@ -1,0 +1,125 @@
+-- Use the desired database
+USE vit;
+
+-- Create the workers table
+CREATE TABLE workers (
+    id INT PRIMARY KEY,
+    fname VARCHAR(50),
+    lname VARCHAR(50),
+    salary DECIMAL(10,2),
+    joining_date DATE,
+    department VARCHAR(50)
+);
+
+-- Sample insert values for workers
+INSERT INTO workers VALUES
+(1, 'Aarav', 'Sharma', 55000, '2020-01-01', 'IT'),
+(2, 'Isha', 'Reddy', 60000, '2020-03-15', 'HR'),
+(3, 'Rahul', 'Verma', 70000, '2019-12-20', 'Finance'),
+(4, 'Sneha', 'Patel', 80000, '2021-05-10', 'IT'),
+(5, 'Karan', 'Kapoor', 52000, '2020-01-01', 'HR'),
+(6, 'Neha', 'Mehta', 75000, '2018-07-18', 'Account');
+
+-- GROUP BY queries
+SELECT department, COUNT(*) FROM workers GROUP BY department;
+SELECT department, AVG(salary) FROM workers GROUP BY department;
+SELECT department, SUM(salary) FROM workers GROUP BY department;
+SELECT department, MIN(joining_date) FROM workers GROUP BY department;
+SELECT department, MAX(salary) FROM workers GROUP BY department;
+
+SELECT department, AVG(salary) 
+FROM workers 
+GROUP BY department 
+ORDER BY AVG(salary) DESC;
+
+SELECT department, COUNT(*) 
+FROM workers 
+GROUP BY department 
+ORDER BY department;
+
+SELECT department, SUM(salary) 
+FROM workers 
+GROUP BY department 
+HAVING SUM(salary) > 110000;
+
+SELECT department, AVG(salary) 
+FROM workers 
+GROUP BY department 
+HAVING AVG(salary) >= 58000;
+
+SELECT department, COUNT(*) 
+FROM workers 
+GROUP BY department 
+HAVING COUNT(*) > 1;
+
+-- NESTED QUERIES
+SELECT * FROM workers 
+WHERE salary = (SELECT MAX(salary) FROM workers);
+
+SELECT fname, lname FROM workers 
+WHERE department = (
+    SELECT department FROM workers WHERE id = 1
+);
+
+SELECT * FROM workers 
+WHERE salary > (SELECT AVG(salary) FROM workers);
+
+SELECT fname, lname FROM workers 
+WHERE id IN (
+    SELECT id FROM workers WHERE department = 'IT'
+);
+
+SELECT * FROM workers 
+WHERE joining_date < (
+    SELECT joining_date FROM workers WHERE fname = 'Aarav'
+);
+
+-- STUDENT TABLES FOR JOINS
+CREATE TABLE student (
+    s_id INT PRIMARY KEY,
+    s_name VARCHAR(50),
+    s_class VARCHAR(20)
+);
+
+INSERT INTO student VALUES
+(1, 'Aarav', '10A'),
+(2, 'Isha', '10B'),
+(3, 'Rahul', '10A'),
+(4, 'Sneha', '10C');
+
+CREATE TABLE address (
+    s_id INT,
+    s_address VARCHAR(100)
+);
+
+INSERT INTO address VALUES
+(1, 'Delhi'),
+(2, 'Mumbai'),
+(4, 'Chennai'),
+(5, 'Kolkata');
+
+-- CROSS JOIN
+SELECT * FROM student CROSS JOIN address;
+
+-- INNER JOIN
+SELECT * FROM student 
+INNER JOIN address ON student.s_id = address.s_id;
+
+-- NATURAL JOIN
+SELECT * FROM student 
+NATURAL JOIN address;
+
+-- LEFT JOIN
+SELECT * FROM student 
+LEFT JOIN address ON student.s_id = address.s_id;
+
+-- RIGHT JOIN
+SELECT * FROM student 
+RIGHT JOIN address ON student.s_id = address.s_id;
+
+-- FULL OUTER JOIN simulation
+SELECT * FROM student 
+LEFT JOIN address ON student.s_id = address.s_id
+UNION
+SELECT * FROM student 
+RIGHT JOIN address ON student.s_id = address.s_id;
