@@ -1,0 +1,85 @@
+SHOW DATABASES;
+
+DROP DATABASE IF EXISTS institute;
+
+CREATE DATABASE institute;
+
+USE institute;
+
+CREATE TABLE learner(roll_no INT, full_name VARCHAR(30), score INT);
+
+INSERT INTO learner VALUES (101, 'Alex', 95), (102, 'Ben', 98);
+
+SELECT * FROM learner;
+
+#JDBC Java Code 1
+
+package connection;
+
+import java.sql.*;
+
+public class DBConnection {
+    public static void main(String[] args) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/institute", "root", "root");
+
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM learner");
+
+            while (rs.next()) {
+                System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getInt(3));
+            }
+
+            con.close();
+        } catch (Exception e) {
+            System.out.println("Sorry for inconvenience, please check the credentials");
+        }
+    }
+}
+
+#JDBC Java Code 2 (with create_data method)
+
+import java.sql.*;
+
+public class DB_Connection {
+
+    public static void main(String[] args) {
+        DB_Connection obj = new DB_Connection();
+        System.out.println(obj.get_connection());
+    }
+
+    public Connection get_connection() {
+        Connection connection = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/institute", "root", "root");
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return connection;
+    }
+
+    public void create_data(String roll_no, String full_name, int score) {
+        DB_Connection obj = new DB_Connection();
+        Connection connection = obj.get_connection();
+        PreparedStatement ps = null;
+
+        try {
+            String query = "INSERT INTO learner(roll_no, full_name, score) VALUES (?, ?, ?)";
+            ps = connection.prepareStatement(query);
+
+            ps.setString(1, roll_no);
+            ps.setString(2, full_name);
+            ps.setInt(3, score);
+
+            System.out.println(ps);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
