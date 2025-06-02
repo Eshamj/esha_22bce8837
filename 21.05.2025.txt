@@ -1,0 +1,135 @@
+CREATE DATABASE db3;
+USE db3;
+
+CREATE TABLE cat (
+cid INT PRIMARY KEY,
+cname VARCHAR(30),
+cdetail VARCHAR(60)
+);
+
+INSERT INTO cat VALUES (1, 'elec', 'gadgets');
+INSERT INTO cat VALUES (2, 'bk', 'study books');
+INSERT INTO cat VALUES (3, 'furn', 'chairs, tables');
+INSERT INTO cat VALUES (4, 'wear', 'clothes');
+INSERT INTO cat VALUES (5, 'sport', 'gear');
+
+SELECT * FROM cat;
+
+CREATE TABLE prod (
+pid INT PRIMARY KEY,
+pname VARCHAR(30),
+pdetail VARCHAR(60),
+cid INT,
+FOREIGN KEY (cid) REFERENCES cat(cid)
+);
+
+DESC prod;
+
+INSERT INTO prod VALUES (11, 'pc', 'i3, 4GB RAM', 1);
+INSERT INTO prod VALUES (12, 'desk', 'wood top', 3);
+INSERT INTO prod VALUES (13, 'shirt', 'blue cotton', 4);
+INSERT INTO prod VALUES (14, 'ball', 'size 4', 5);
+INSERT INTO prod VALUES (15, 'pen', 'blue ink', 2);
+
+SELECT * FROM prod;
+
+SELECT * FROM prod WHERE pid BETWEEN 12 AND 14 AND cid IN (3, 4, 5);
+SELECT * FROM prod WHERE pid NOT BETWEEN 12 AND 14 AND cid IN (1, 2);
+SELECT * FROM prod WHERE pname BETWEEN 'd' AND 't';
+SELECT * FROM prod WHERE pname NOT BETWEEN 'a' AND 'm';
+
+#Aggregates
+
+USE vit;
+
+SELECT * FROM workers;
+SELECT MIN(salary) FROM workers;
+SELECT MAX(salary) FROM workers;
+SELECT AVG(salary) FROM workers;
+
+SELECT fname, lname, salary FROM workers WHERE salary = (SELECT MIN(salary) FROM workers);
+SELECT fname, lname, salary FROM workers WHERE salary = (SELECT MAX(salary) FROM workers);
+
+SELECT COUNT(*) FROM workers WHERE salary > 54000;
+SELECT SUM(salary) FROM workers WHERE department = 'it';
+SELECT AVG(salary) FROM workers WHERE joining_date = '2020-01-01';
+
+CREATE TABLE emp (
+eid INT PRIMARY KEY,
+fname VARCHAR(30),
+lname VARCHAR(30),
+salary DECIMAL(10,2),
+jdate DATETIME,
+dept VARCHAR(30)
+);
+
+INSERT INTO emp VALUES
+(1, 'ana', 'rao', 90000, '2014-01-15 08:30:00', 'hr'),
+(2, 'bob', 'sen', 75000, '2014-06-20 10:00:00', 'admin'),
+(3, 'raj', 'sing', 210000, '2014-01-15 08:30:00', 'hr'),
+(4, 'ajay', 'pat', 250000, '2014-01-15 08:30:00', 'admin'),
+(5, 'tan', 'das', 250000, '2014-06-20 10:00:00', 'admin'),
+(6, 'vip', 'dev', 150000, '2014-06-20 10:00:00', 'acct'),
+(7, 'ram', 'kum', 60000, '2014-01-10 08:00:00', 'acct'),
+(8, 'diya', 'cha', 85000, '2014-03-25 11:00:00', 'admin');
+
+SELECT DISTINCT dept FROM emp;
+
+#UNION / UNION ALL
+
+SELECT fname FROM emp WHERE dept = 'admin'
+UNION
+SELECT fname FROM emp WHERE dept = 'hr'
+ORDER BY fname;
+
+SELECT fname FROM emp WHERE salary > 80000
+UNION ALL
+SELECT fname FROM emp WHERE salary < 80000;
+
+SELECT fname FROM emp WHERE dept = 'admin'
+UNION
+SELECT fname FROM emp WHERE dept = 'acct'
+ORDER BY fname;
+
+SELECT fname FROM emp WHERE salary > 80000
+UNION ALL
+SELECT fname FROM emp WHERE dept = 'hr';
+
+
+SELECT *, 
+CASE
+    WHEN salary < 90000 THEN 'Good Pay'
+    WHEN salary > 90000 AND salary <= 200000 THEN 'Better Pay'
+    WHEN salary > 200000 THEN 'Top Earner'
+    ELSE 'N/A'
+END AS Pay_Grade
+FROM emp;
+
+#ORDER BY
+
+SELECT * FROM emp ORDER BY fname;
+SELECT * FROM emp ORDER BY salary DESC;
+SELECT * FROM emp ORDER BY dept ASC, fname DESC;
+SELECT * FROM emp ORDER BY jdate, lname;
+
+#LIKE
+
+SELECT * FROM emp WHERE fname LIKE 'v%';
+SELECT * FROM emp WHERE lname LIKE '%a';
+SELECT * FROM emp WHERE dept LIKE '%c%';
+SELECT * FROM emp WHERE fname LIKE '_i%';
+SELECT * FROM emp WHERE lname LIKE '%n_';
+
+#VIEWS
+
+CREATE VIEW vw_hr AS
+SELECT eid, fname, lname, salary FROM emp WHERE dept = 'hr';
+
+CREATE VIEW vw_highpay AS
+SELECT fname, lname, dept FROM emp WHERE salary > 150000;
+
+CREATE VIEW vw_2014 AS
+SELECT * FROM emp WHERE YEAR(jdate) = 2014;
+
+SELECT * FROM vw_hr;
+DROP VIEW vw_highpay;
