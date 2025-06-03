@@ -1,0 +1,328 @@
+db.products.updateOne({_id:1},{$set:{price:699}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne({_id:4},{$set:{"spec.ram":16 ,"spec.screen":10.7 ,"spec.cpu" :2.66}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne(
+{_id:4},
+{$set:
+{"storage.0":16 ,"storage.1":32 
+}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne(
+  { name: "SmartPhone" },
+  {
+    $set: {
+      price: 549,
+      "spec.cpu": 1.8,
+      "spec.ram": 6
+    }
+  }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne(
+  { name: "xPhone" },
+  { $set: { price: 749 } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne(
+  { price : {$gt : 700} },
+  {
+    $set: {
+      "spec.screen":9.8,
+      "spec.cpu": 5.66,
+      "spec.ram": 32
+    }
+  }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne(
+  { _id : {$in:[1,2,3]} },
+  {
+    $set: {
+"storage.0":16 ,
+"storage.1":32 
+}
+  }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+db.products.updateOne(
+  { name: "SmartPhone" },
+  { $inc: { price: 50 } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne(
+  { _id:1},
+  { $inc: { price: 50 } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne(
+  { _id:1},
+  { $inc: { price: 50,
+"spec.ram":4 } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne(
+  { _id:5},
+  { $min: { price: 699} }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+
+db.products.updateOne(
+  { _id:5},
+  { $max: { price: 699} }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne(
+  { name: "SmartPhone" },
+  { $max: { price: 799 } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne(
+  { name: "xPhone" },
+  { $max: { "spec.ram": 12 } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne(
+  { name: "SmartTablet" },
+  { $max: { price: 1000 } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne({
+_id: 1
+},{
+$mul : {
+    "storage.0":2,
+    "storage.1":2,
+    "storage.2":2
+}
+})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne(
+  { name: "SmartPhone" },
+  { $mul: { price: 1.1 } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne(
+  { name: "SmartTablet" },
+  { $mul: { "spec.screen": 0.8 } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne(
+  { name: "SmartPad" },
+  { $mul: { "spec.cpu": 1.5 } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne({
+_id: 1
+},{
+$unset : {
+    price : ""
+}
+})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne({ name: "SmartTablet" },{ $unset: { color: "" } });
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne({ name: "SmartPad" },{ $unset: { "spec.cpu": "" } });
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne({_id:3},{$unset:{'spec.ram':""}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateMany({},{$unset:{"spec.ram":""}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 5,
+  modifiedCount: 4,
+  upsertedCount: 0
+}
+db.products.updateMany({},{$unset : {"storage.0" : ""}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 5,
+  modifiedCount: 5,
+  upsertedCount: 0
+}
+db.products.updateMany({},{$rename : {nmea : "name"}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 5,
+  modifiedCount: 5,
+  upsertedCount: 0
+}
+db.products.updateMany({},{$rename : {"spec.screen" : "spec.screenSize"}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 5,
+  modifiedCount: 5,
+  upsertedCount: 0
+}
+db.products.updateOne({_id : 1},{$rename : {"spec.cpu" : "cpu"}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.updateOne({_id : 2},{$rename : {"color" : "storage"}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+db.products.updateMany(
+{ _id : 6 },
+{$set : {price : 899}},
+{upsert : true}
+);
+{
+  acknowledged: true,
+  insertedId: 6,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 1
+}
