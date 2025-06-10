@@ -1,0 +1,168 @@
+import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
+import org.bson.Document;
+
+public class Tester {
+    public static void main(String[] args) {
+        // Creating a Mongo client
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+
+        // Connecting to the database
+        MongoDatabase database = mongoClient.getDatabase("myDb");
+
+        // Get the sales collection
+        MongoCollection<Document> collection = database.getCollection("sales");
+
+        // Delete one document where item is "Americanos"
+        collection.deleteOne(Filters.eq("item", "Americanos"));
+        System.out.println("Document deleted.");
+        System.out.println("*** Remaining Documents ***");
+
+        // Retrieve and print all documents from the sales collection
+        FindIterable<Document> documents = collection.find();
+        for (Document document : documents) {
+            System.out.println(document);
+        }
+    }
+}
+
+
+import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
+import org.bson.Document;
+
+public class Tester {
+    public static void main(String[] args) {
+        // Creating a Mongo client
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+
+        // Connecting to the database
+        MongoDatabase database = mongoClient.getDatabase("myDb");
+
+        // Getting the sales collection
+        MongoCollection<Document> collection = database.getCollection("sales");
+
+        // Delete all documents where item is "Cappuccino"
+        collection.deleteMany(Filters.eq("item", "Cappuccino"));
+        System.out.println("All 'Cappuccino' documents deleted.");
+        System.out.println("*** Remaining Documents ***");
+
+        // Display all remaining documents
+        FindIterable<Document> documents = collection.find();
+        for (Document document : documents) {
+            System.out.println(document);
+        }
+    }
+}
+
+
+import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
+import org.bson.Document;
+
+public class Tester {
+    public static void main(String[] args) {
+        // Creating a Mongo client
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+
+        // Connecting to the database
+        MongoDatabase database = mongoClient.getDatabase("myDb");
+
+        // Getting the sales collection
+        MongoCollection<Document> collection = database.getCollection("sales");
+
+        // Find and limit to two documents
+        FindIterable<Document> allDocuments = collection.find().limit(2);
+
+        // Print the documents
+        for (Document document : allDocuments) {
+            System.out.println(document);
+        }
+    }
+}
+
+
+import com.mongodb.client.*;
+import org.bson.Document;
+
+public class Tester {
+    public static void main(String[] args) {
+        // Creating a Mongo client
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+
+        // Connecting to the database
+        MongoDatabase database = mongoClient.getDatabase("myDb");
+
+        // Getting the sales collection
+        MongoCollection<Document> collection = database.getCollection("sales");
+
+        // Skip the first document and retrieve the next two
+        FindIterable<Document> allDocuments = collection.find().skip(1).limit(3);
+
+        // Print the documents
+        for (Document document : allDocuments) {
+            System.out.println(document);
+        }
+    }
+}
+
+import com.mongodb.client.*;
+import org.bson.Document;
+
+public class Tester {
+    public static void main(String[] args) {
+        // Creating a Mongo client
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+
+        // Connecting to the database
+        MongoDatabase database = mongoClient.getDatabase("myDb");
+
+        // Getting the sales collection
+        MongoCollection<Document> collection = database.getCollection("sales");
+
+        // Fetch all documents
+        FindIterable<Document> allDocuments = collection.find();
+
+        // Print only even-numbered documents        
+        int index = 0;
+        for (Document document : allDocuments) {
+            if ((index + 1) % 2 == 0) {  
+                System.out.println(document);
+            }
+            index++;
+        }
+    }
+}
+
+import com.mongodb.client.*;
+import org.bson.Document;
+import com.mongodb.BasicDBObject;
+
+public class Tester {
+    public static void main(String[] args) {
+        // Create Mongo client and connect to DB
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase database = mongoClient.getDatabase("myDb");
+
+        // Get the 'sales' collection
+        MongoCollection<Document> collection = database.getCollection("sales");
+
+        System.out.println("***Descending Order by item***");
+
+        // Sort in descending order by 'item'
+        FindIterable<Document> allDocuments = collection.find().sort(new BasicDBObject("item", -1));
+        for (Document document : allDocuments) {
+            System.out.println(document);
+        }
+
+        System.out.println("***Ascending Order by item***");
+
+        // Sort in ascending order by 'item'
+        allDocuments = collection.find().sort(new BasicDBObject("item", 1));
+        for (Document document : allDocuments) {
+            System.out.println(document);
+        }
+    }
+}
+
+
