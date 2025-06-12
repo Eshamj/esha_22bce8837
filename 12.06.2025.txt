@@ -1,0 +1,36 @@
+//Navigate to MongoDB installation folder
+cd \
+cd "Program Files"
+cd MongoDB
+cd Server
+cd 8.0
+cd bin
+
+//Create data directories
+cd \
+mkdir data
+cd data
+mkdir db0
+mkdir db1
+mkdir db2
+
+//Start MongoDB replica set instances
+mongod --port 27017 --dbpath "C:\data\db0" --replSet "rs0" --bind_ip localhost
+mongod --port 27018 --dbpath "C:\data\db1" --replSet "rs0" --bind_ip localhost
+mongod --port 27019 --dbpath "C:\data\db2" --replSet "rs0" --bind_ip localhost
+
+//Connect to primary instance (port 27017)
+mongosh --port 27017
+
+//Initiate the replica set
+rs.initiate({ 
+  _id: "rs0", 
+  members: [ 
+    { _id: 0, host: "localhost:27017" }, 
+    { _id: 1, host: "localhost:27018" }, 
+    { _id: 2, host: "localhost:27019" } 
+  ] 
+})
+
+//Check replica set status
+rs.status()
