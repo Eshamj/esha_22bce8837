@@ -1,0 +1,65 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+h2 {
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: #343a40;
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+    border: none;
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-body h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.card-body p {
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+}
+
+.btn {
+    font-size: 0.9rem;
+    border-radius: 4px;
+}
+
+form .form-control {
+    border-radius: 6px;
+    box-shadow: none;
+    border: 1px solid #ced4da;
+}
+
+form .btn {
+    padding: 10px 20px;
+}
+
+img.card-img-top {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.alert {
+    font-size: 0.9rem;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.nav-buttons {
+    margin-bottom: 20px;
+}
+
+textarea.form-control {
+    resize: none;
+}
