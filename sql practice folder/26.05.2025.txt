@@ -1,0 +1,145 @@
+CREATE DATABASE crud;
+
+USE crud;
+
+CREATE TABLE user (
+sl_no INT(5),name VARCHAR(100),email VARCHAR(100));
+
+#DB Connection
+
+package CRUD;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class DB_Connection {
+    public Connection get_connection() {
+        Connection connection = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver"); // For older versions of MySQL
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/crud", "root", "root");
+        } catch (Exception e) {
+            System.out.println("Connection error: " + e);
+        }
+        return connection;
+    }
+}
+
+#CRUD
+
+package CRUD;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class CRUD_Test {
+
+    public static void main(String[] args) {
+        CRUD_Test obj = new CRUD_Test();
+        Scanner sc = new Scanner(System.in);
+        boolean run = true;
+        while (run) {
+            System.out.println("1. Insert user");
+            System.out.println("2. Read all users");
+            System.out.println("3. Update user");
+            System.out.println("4. Delete user");
+            System.out.println("5. Add age column");
+            System.out.println("6. Drop age column");
+            System.out.println("0. Exit");
+            System.out.print("Choose: ");
+            int choice = sc.nextInt();
+            sc.nextLine(); 
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter sl_no: ");
+                    int sl = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Enter name: ");
+                    String name = sc.nextLine();
+                    System.out.print("Enter email: ");
+                    String email = sc.nextLine();
+                    obj.create_data(sl, name, email);
+                    break;
+                case 2:
+                    obj.read_all_data();
+                    break;
+                case 3:
+                    System.out.print("Enter sl_no to update: ");
+                    String old_sl = sc.nextLine();
+                    System.out.print("Enter new sl_no: ");
+                    String new_sl = sc.nextLine();
+                    System.out.print("Enter new name: ");
+                    String new_name = sc.nextLine();
+                    System.out.print("Enter new email: ");
+                    String new_email = sc.nextLine();
+                    obj.update_data(old_sl, new_sl, new_name, new_email);
+                    break;
+                case 4:
+                    System.out.print("Enter sl_no to delete: ");
+                    String del_sl = sc.nextLine();
+                    obj.delete_data(del_sl);
+                case 0:
+                    run = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid option");
+            }
+        }
+        sc.close();
+    }
+
+    public void create_data(int sl_no, String name, String email) {
+        try (Connection conn = new DB_Connection().get_connection()) {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO user(sl_no, name, email) VALUES (?, ?, ?)");
+            ps.setInt(1, sl_no);
+            ps.setString(2, name);
+            ps.setString(3, email);
+            ps.executeUpdate();
+            System.out.println("Inserted successfully.");
+        } catch (Exception e) {
+            System.out.println("Insert error: " + e);
+        }
+    }
+
+    public void read_all_data() {
+        try (Connection conn = new DB_Connection().get_connection()) {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM user");
+            ResultSet rs = ps.executeQuery();
+            System.out.println("\nAll Records:");
+            while (rs.next()) {
+                System.out.println("Sl_no: " + rs.getInt("sl_no"));
+                System.out.println("Name : " + rs.getString("name"));
+                System.out.println("Email: " + rs.getString("email"));
+            }
+        } catch (Exception e) {
+            System.out.println("Read error: " + e);
+        }
+    }
+
+    public void update_data(String sl_no, String new_sl_no, String name, String email) {
+        try (Connection conn = new DB_Connection().get_connection()) {
+            PreparedStatement ps = conn.prepareStatement("UPDATE user SET sl_no=?, name=?, email=? WHERE sl_no=?");
+            ps.setString(1, new_sl_no);
+            ps.setString(2, name);
+            ps.setString(3, email);
+            ps.setString(4, sl_no);
+            ps.executeUpdate();
+            System.out.println("Updated successfully.");
+        } catch (Exception e) {
+            System.out.println("Update error: " + e);
+        }
+    }
+
+    public void delete_data(String sl_no) {
+        try (Connection conn = new DB_Connection().get_connection()) {
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM user WHERE sl_no=?");
+            ps.setString(1, sl_no);
+            ps.executeUpdate();
+            System.out.println("Deleted successfully.");
+        } catch (Exception e) {
+            System.out.println("Delete error: " + e);
+        }
+    }
+    }
+}
