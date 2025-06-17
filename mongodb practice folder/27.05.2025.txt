@@ -1,0 +1,31 @@
+show databases;
+Catalog  348.00 KiB
+Library   92.00 KiB
+admin     40.00 KiB
+appdb     72.00 KiB
+config    48.00 KiB
+local     80.00 KiB
+vit       72.00 KiB
+use vit;
+switched to db vit
+db.dropDatabase();
+{ ok: 1, dropped: 'vit' }
+db.createCollection("Teachers");
+{ ok: 1 }
+show collections;
+Teachers
+db.Teachers.drop();
+true
+db.createCollection("Teachers");
+{ ok: 1 }
+db.Teachers.insertOne({name:"jayanth",company:"faceprep"});
+{
+  acknowledged: true,
+  insertedId: ObjectId('6836e7b9455d5ae7596e02b0')
+}
+db.Teachers.insertOne({name:"tamilsaran",company:"faceprep"});
+{
+  acknowledged: true,
+  insertedId: ObjectId('6836e7cc455d5ae7596e02b1')
+}
+db.Teachers.insertMany([{name:"Esha",company:"Ethnus"},{name:"Ash",company:"Ethnus"}])
