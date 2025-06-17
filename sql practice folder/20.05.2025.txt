@@ -1,0 +1,116 @@
+CREATE DATABASE db1;
+USE db1;
+
+CREATE TABLE stu (
+id INT,
+name VARCHAR(20)
+);
+
+INSERT INTO stu VALUES (1, 'Ann');
+INSERT INTO stu VALUES (2, 'Bob');
+INSERT INTO stu VALUES (3, 'Riya');
+INSERT INTO stu VALUES (4, 'Deepak');
+
+CREATE TABLE lib (
+id INT,
+sid INT,
+title VARCHAR(50)
+);
+
+INSERT INTO lib VALUES (1, 1, 'Math');
+INSERT INTO lib VALUES (2, 2, 'Sci');
+INSERT INTO lib VALUES (3, 3, 'Hist');
+INSERT INTO lib VALUES (4, 1, 'Geo');
+INSERT INTO lib VALUES (5, 4, 'Eng');
+
+ALTER TABLE stu ADD PRIMARY KEY (id);
+ALTER TABLE lib ADD FOREIGN KEY (sid) REFERENCES stu(id);
+
+-- Another DB
+CREATE DATABASE db2;
+USE db2;
+
+CREATE TABLE cat (
+id INT PRIMARY KEY,
+name VARCHAR(20),
+info VARCHAR(50)
+);
+
+INSERT INTO cat VALUES (1, 'elec', 'gadgets');
+INSERT INTO cat VALUES (2, 'book', 'edu');
+INSERT INTO cat VALUES (3, 'furn', 'home');
+INSERT INTO cat VALUES (4, 'wear', 'cloth');
+INSERT INTO cat VALUES (5, 'sport', 'gear');
+
+SELECT * FROM cat;
+
+CREATE TABLE prod (
+id INT PRIMARY KEY,
+name VARCHAR(20),
+info VARCHAR(50),
+cid INT,
+FOREIGN KEY (cid) REFERENCES cat(id)
+);
+
+DESC prod;
+
+INSERT INTO prod VALUES (1, 'lap', 'i5', 1);
+INSERT INTO prod VALUES (2, 'tbl', 'wood', 3);
+INSERT INTO prod VALUES (3, 'tee', 'cotton', 4);
+INSERT INTO prod VALUES (4, 'ball', 'size5', 5);
+INSERT INTO prod VALUES (5, 'note', '200pg', 2);
+
+SELECT * FROM prod;
+
+DELETE FROM cat WHERE id = 2;
+
+DROP DATABASE db2;
+
+-- Cascade
+CREATE TABLE prod (
+id INT PRIMARY KEY,
+name VARCHAR(20),
+info VARCHAR(50),
+cid INT,
+FOREIGN KEY (cid) REFERENCES cat(id) ON DELETE CASCADE
+);
+
+CREATE TABLE prod (
+id INT PRIMARY KEY,
+name VARCHAR(20),
+info VARCHAR(50),
+cid INT,
+FOREIGN KEY (cid) REFERENCES cat(id) ON UPDATE CASCADE
+);
+
+-- Constraints
+CREATE TABLE person (
+id INT PRIMARY KEY,
+lname VARCHAR(20),
+fname VARCHAR(20) NOT NULL,
+age INT,
+UNIQUE (lname, fname)
+);
+
+ALTER TABLE person ADD PRIMARY KEY (id);
+ALTER TABLE person DROP PRIMARY KEY;
+
+CREATE TABLE orders (
+oid INT,
+pname VARCHAR(20),
+pid INT
+);
+
+ALTER TABLE orders ADD CONSTRAINT fk_p FOREIGN KEY (pid) REFERENCES person(id);
+ALTER TABLE orders DROP CONSTRAINT fk_p;
+
+ALTER TABLE person ADD CHECK (age >= 18);
+ALTER TABLE person ADD CHECK (age BETWEEN 18 AND 60);
+
+CREATE TABLE people (
+id INT NOT NULL,
+lname VARCHAR(20),
+fname VARCHAR(20),
+age INT,
+city VARCHAR(20) DEFAULT 'tn'
+);

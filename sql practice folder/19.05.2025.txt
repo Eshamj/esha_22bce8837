@@ -1,0 +1,78 @@
+SHOW DATABASES;
+
+DROP DATABASE IF EXISTS campus;
+
+USE vit;
+
+SHOW TABLES FROM vit;
+
+-- Drop table
+DROP TABLE IF EXISTS student;
+
+DESC faculty;
+
+ALTER TABLE faculty DROP COLUMN f_dept;
+
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    salary DECIMAL(10,2),
+    join_date DATE,
+    dept VARCHAR(50)
+);
+
+INSERT INTO employees VALUES (101, 'Alice',52000.00, '2020-02-20', 'support');
+INSERT INTO employees VALUES (102, 'Bob', 48000.00, '2019-07-14', 'tech');
+INSERT INTO employees VALUES (103, 'Carol', 53000.00, '2021-04-11', 'hr');
+INSERT INTO employees VALUES (104, 'Dan', 61000.00, '2022-08-05', 'finance');
+INSERT INTO employees VALUES (105, 'Eva', 59000.00, '2018-10-25', 'sales');
+
+SELECT * FROM employees;
+
+#Delete operations
+DELETE FROM employees WHERE emp_id = 101;
+DELETE FROM employees WHERE salary <= 45000;
+DELETE FROM employees WHERE dept = 'tech';
+DELETE FROM employees WHERE join_date = '2022-08-05';
+
+#Truncate
+TRUNCATE TABLE employees;
+
+CREATE DATABASE IF NOT EXISTS vit;
+DROP DATABASE IF EXISTS vit;
+USE vit;
+
+CREATE TABLE department (id INT, name VARCHAR(25));
+
+#Transaction with Savepoint and Rollback
+
+START TRANSACTION;
+INSERT INTO department VALUES (1, 'Physics');
+SAVEPOINT s1;
+INSERT INTO department VALUES (2, 'Chemistry');
+SAVEPOINT s2;
+INSERT INTO department VALUES (3, 'Maths');
+DELETE FROM department WHERE id = 2;
+
+SELECT * FROM department;
+ROLLBACK TO s2;
+SELECT * FROM department;
+
+#Selection queries
+
+SELECT first_name, dept FROM employees;
+SELECT first_name AS emp_name FROM employees;
+DESC employees;
+
+SELECT * FROM employees;
+SELECT first_name, dept FROM employees WHERE salary >= 40000;
+SELECT first_name FROM employees WHERE salary < 70000;
+SELECT dept FROM employees WHERE first_name = 'Alice';
+SELECT * FROM employees WHERE first_name = 'Bob' AND dept = 'finance';
+SELECT * FROM employees WHERE first_name = 'Dan' OR dept = 'sales';
+SELECT * FROM employees WHERE first_name = 'Eva' AND dept IN ('hr', 'finance');
+SELECT * FROM employees WHERE first_name = 'Bob' AND dept NOT IN ('hr', 'finance');
+
+SELECT * FROM employees WHERE salary > 40000 AND dept NOT IN ('hr', 'finance');
+
+DROP TABLE IF EXISTS employees;
